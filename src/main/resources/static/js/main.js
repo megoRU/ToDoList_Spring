@@ -17,16 +17,16 @@ $(function() {
     });
 
     //Show adding task form
-    $('#show-add-task-form').click(function(){
-        $('#task-form').css('display', 'flex');
-    });
+    // $('#show-add-task-form').click(function(){
+    //     $('#task-form').css('display', 'flex');
+    // });
 
     //Closing adding task form
-    $('#task-form').click(function(event){
-        if(event.target === this) {
-            $(this).css('display', 'none');
-        }
-    });
+    // $('#task-form').click(function(event){
+    //     if(event.target === this) {
+    //         $(this).css('display', 'none');
+    //     }
+    // });
 
     //Getting task
     // $(document).on('click', '.task-link', function(){
@@ -73,21 +73,24 @@ $(function() {
 
     //Adding task
     $('#save-task').click(function() {
-        var data = $('#task-form form').serialize();
+        var data = $('.form-signin').serialize();
+
+        console.log(data)
         $.ajax({
             method: "POST",
             url: '/todolist/',
             data: data,
             success: function(response)
             {
-                $('#task-form').css('display', 'none');
+               // $('#task-form').css('display', 'none');
                 var task = {};
                 task.id = response;
-                var dataArray = $('#task-form form').serializeArray();
+                var dataArray = $('.form-signin').serializeArray();
                 for(i in dataArray) {
                     task[dataArray[i]['name']] = dataArray[i]['value'];
                 }
                 appendtask(task);
+                console.log("Пирвет")
                 document.getElementById("text-input").value = "";
             }
         });
