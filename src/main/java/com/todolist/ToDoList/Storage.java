@@ -1,63 +1,42 @@
 package com.todolist.ToDoList;
 
-import response.ToDoList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Storage {
 
-    private static int currentId = 1;
-    private static final HashMap<Integer, ToDoList> toDoLists = new HashMap<>();
+    private final Connection conn = DriverManager.getConnection(CONN, USER, PASS);
+    private static final String CONN = "jdbc:mysql://45.138.72.66:3306/todolist_spring?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+    private static final String USER = "todolist_spring";
+    private static final String PASS = "Omhd34_4";
 
-    public static List<ToDoList> getAllList() {
-        return new ArrayList<>(toDoLists.values());
+    public Storage() throws SQLException {
     }
 
-    public static int addToDoList(ToDoList toDoList) {
-        int id = currentId++;
-        toDoList.setId(id);
-        toDoLists.put(id, toDoList);
-        return id;
+    public int num() {
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(id) AS id FROM to_do");
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
-    public static void editToDoList(ToDoList toDoList, Integer id, String text) {
-        if (toDoLists.containsKey(id)) {
-            toDoList.setId(id);
-            toDoList.setText(text);
-            toDoLists.put(id, toDoList);
+    public void setNextValue(Integer count) {
+        try {
+            String resultSet = "UPDATE `hibernate_sequence` SET next_val = " + count;
+            PreparedStatement preparedStmt2 = conn.prepareStatement(resultSet);
+            preparedStmt2.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
-    public static void deleteToDoList() {
-        setCurrentId(1);
-        toDoLists.clear();
-
-    }
-
-    //TODO: Реализовать сдвиг на -1
-    public static void deleteOneToDoList(int id) {
-
-        if (toDoLists.containsKey(id)) {
-            setCurrentId(currentId--);
-            toDoLists.remove(id);
-        }
-
-    }
-
-    public static ToDoList getToDoList(int todolistId) {
-        if (toDoLists.containsKey(todolistId)) {
-            return toDoLists.get(todolistId);
-        }
-        return null;
-    }
-
-    public static void setCurrentId(int currentId) {
-        Storage.currentId = currentId;
-    }
-
-    public static HashMap<Integer, ToDoList> getToDoLists() {
-        return toDoLists;
-    }
-
 }
