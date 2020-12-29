@@ -6,7 +6,7 @@
     <title>ToDoList</title>
     <link rel="apple-touch-icon" sizes="64x64" href="images/list.png">
     <link rel="icon" type="image/png" href="images/list.png" sizes="64x64">
-    <script src="/js/jquery-3.4.0.min.js"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
     <script src="/js/main.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -18,18 +18,18 @@
 <form class="form-signin">
     <div id="task-form">
 
-    <h5>Колличество дел (<span id="count" th:text="${tasksCount}">0</span>)</h5>
-    <h3>Добавление дела</h3><br>
-    <div class="input-group mb-3">
+        <h5>Колличество дел: <span id="count" th:text="${tasksCount}">0</span></h5>
+        <h3>Добавление дела</h3><br>
+        <div class="input-group mb-3">
 
-        <input id="text-input" class="form-control" placeholder="Введите текст" type="text" name="text" value="">
-        <hr>
-        <button id="save-task" class="btn btn-primary">Сохранить</button>
+            <input id="text-input" class="form-control" placeholder="Введите текст" type="text" name="text" value="">
+            <hr>
+            <button id="save-task" class="btn btn-primary">Сохранить</button>
+        </div>
     </div>
-    </div>
-    <div id="task-list">
-
-    </div>
+    <ol>
+    <div class="task-list"> </div>
+    </ol>
 </form>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.todolist.ToDoList;
 
-import java.sql.SQLException;
+import com.todolist.ToDoList.model.ToDoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HtmlController {
 
+    @Autowired
+    private ToDoRepository toDoRepository;
+
     @GetMapping(value = "/")
-    public String index(Model model) throws SQLException {
-        Storage storage = new Storage();
-        model.addAttribute("tasksCount", storage.num());
+    public String index(Model model) {
+        model.addAttribute("tasksCount", toDoRepository.count());
         return "index";
     }
 }
