@@ -30,7 +30,7 @@
         <div class="task-list">
             <div th:each="todo : ${toDos}">
                 <li><a class="task-link" th:attr="data-id=${todo.id}" th:text="${todo.text}"></a>
-                    <button><img class="task-delete" th:attr="data-id=${todo.id}" src="images/trash.png" width="16" alt="deleteImage"></button>
+                    <button type="button" id="delete-task" class="btn btn-xs btn-danger" th:attr="data-id=${todo.id}"> <img src="images/trash.png" width="16" alt="deleteImage"></button>
                 </li>
             </div>
         </div>

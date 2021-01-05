@@ -3,56 +3,16 @@ $(function () {
   const appendtask = function (data) {
     var taskCode = '<li><a class="task-link" data-id="' +
         data.id + '">' + data.text + '</a> '
-        + '<button> <img class="task-delete" data-id="' + data.id
-        + '"'
-        + ' src="images/trash.png" width="16" alt="deleteImage"> </button> </li>';
+        + '<button type="button" id="delete-task" class="btn btn-xs btn-danger" data-id="'
+        + data.id + '"> '
+        + ''
+        + ' <img src="images/trash.png" width="16" alt="deleteImage"> </button> </li>';
     $('.task-list')
     .append('<div>' + taskCode + '</div>');
   };
 
-  //Loading tasks on load page
-  // $.get('/todolist/', function (response) {
-  //   for (i in response) {
-  //     appendtask(response[i]);
-  //   }
-  // });
-
-  //Show adding task form
-  // $('#show-add-task-form').click(function(){
-  //     $('#task-form').css('display', 'flex');
-  // });
-
-  //Closing adding task form
-  // $('#task-form').click(function(event){
-  //     if(event.target === this) {
-  //         $(this).css('display', 'none');
-  //     }
-  // });
-
-  //Getting task
-  // $(document).on('click', '.task-link', function(){
-  //     var link = $(this);
-  //     var taskId = link.data('id');
-  //     $.ajax({
-  //         method: "GET",
-  //         url: '/todolist/' + taskId,
-  //         success: function(response)
-  //         {
-  //             var code = '<span>Text: ' + response.text + '</span>';
-  //             link.parent().append(code);
-  //         },
-  //         error: function(response)
-  //         {
-  //             if(response.status === 404) {
-  //                 alert('Task not found!');
-  //             }
-  //         }
-  //     });
-  //     return false;
-  // });
-
   //Deleted task
-  $(document).on('click', '.task-delete', function () {
+  $(document).on('click', '#delete-task', function () {
     var link = $(this);
     var taskId = link.data('id');
     $.ajax({
@@ -93,3 +53,44 @@ $(function () {
     return false;
   });
 });
+
+//Loading tasks on load page
+// $.get('/todolist/', function (response) {
+//   for (i in response) {
+//     appendtask(response[i]);
+//   }
+// });
+
+//Show adding task form
+// $('#show-add-task-form').click(function(){
+//     $('#task-form').css('display', 'flex');
+// });
+
+//Closing adding task form
+// $('#task-form').click(function(event){
+//     if(event.target === this) {
+//         $(this).css('display', 'none');
+//     }
+// });
+
+//Getting task
+// $(document).on('click', '.task-link', function(){
+//     var link = $(this);
+//     var taskId = link.data('id');
+//     $.ajax({
+//         method: "GET",
+//         url: '/todolist/' + taskId,
+//         success: function(response)
+//         {
+//             var code = '<span>Text: ' + response.text + '</span>';
+//             link.parent().append(code);
+//         },
+//         error: function(response)
+//         {
+//             if(response.status === 404) {
+//                 alert('Task not found!');
+//             }
+//         }
+//     });
+//     return false;
+// });
