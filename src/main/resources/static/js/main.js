@@ -2,20 +2,20 @@ $(function () {
 
   const appendtask = function (data) {
     var taskCode = '<li><a class="task-link" data-id="' +
-        data.id + '">' + data.text
-        + '</a></li> <button> <img class="task-delete" data-id="' + data.id
+        data.id + '">' + data.text + '</a> '
+        + '<button> <img class="task-delete" data-id="' + data.id
         + '"'
-        + ' src="images/trash.png" width="16" alt="deleteImage"> </button> <br>';
+        + ' src="images/trash.png" width="16" alt="deleteImage"> </button> </li><br>';
     $('.task-list')
     .append('<div>' + taskCode + '</div>');
   };
 
   //Loading tasks on load page
-  $.get('/todolist/', function (response) {
-    for (i in response) {
-      appendtask(response[i]);
-    }
-  });
+  // $.get('/todolist/', function (response) {
+  //   for (i in response) {
+  //     appendtask(response[i]);
+  //   }
+  // });
 
   //Show adding task form
   // $('#show-add-task-form').click(function(){
