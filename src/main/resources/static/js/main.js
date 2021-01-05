@@ -5,7 +5,7 @@ $(function () {
         data.id + '">' + data.text + '</a> '
         + '<button> <img class="task-delete" data-id="' + data.id
         + '"'
-        + ' src="images/trash.png" width="16" alt="deleteImage"> </button> </li><br>';
+        + ' src="images/trash.png" width="16" alt="deleteImage"> </button> </li>';
     $('.task-list')
     .append('<div>' + taskCode + '</div>');
   };
