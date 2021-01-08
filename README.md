@@ -1,6 +1,7 @@
 # ToDoList_Spring
 
-https://app-megoru.herokuapp.com/
+https://app-megoru.herokuapp.com/ <br>
+http://45.138.72.66:8080/
 
 ## Используемые технологии
 
