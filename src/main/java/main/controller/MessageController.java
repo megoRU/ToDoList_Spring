@@ -44,10 +44,12 @@ public class MessageController {
 
     @PostMapping//Save
     public Map<String, String> create(@RequestBody Map<String, String> message) {
-        ToDo toDo = new ToDo();
-        toDo.setText(message.toString().substring(6, message.toString().length() - 1));
-        toDoRepository.save(toDo);
-        System.out.println("Create");
+        if (!message.toString().equals("{text=}")) {
+            ToDo toDo = new ToDo();
+            toDo.setText(message.toString().substring(6, message.toString().length() - 1));
+            toDoRepository.save(toDo);
+            System.out.println("Create");
+        }
         return message;
     }
 
@@ -66,6 +68,7 @@ public class MessageController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id) {
+        System.out.println("delete " + id);
         toDoRepository.deleteById(Integer.parseInt(id));
     }
 }
