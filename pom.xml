@@ -62,7 +62,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.todolist.ToDoList.ToDoListApplication</mainClass>
+					<mainClass>main.Main</mainClass>
 				</configuration>
 				<executions>
 					<execution>

@@ -1,4 +1,4 @@
-package com.todolist.ToDoList.model;
+package main.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
