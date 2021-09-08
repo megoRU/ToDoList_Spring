@@ -21,7 +21,7 @@ public interface ListTODORepository extends CrudRepository<ListTODO, Integer> {
     @Query(value = "SELECT lt FROM ListTODO lt")
     List<ListTODO> getListTODO();
 
-    @Query(value = "SELECT lt FROM ListTODO lt WHERE id = :id")
+    @Query(value = "SELECT lt FROM ListTODO lt WHERE lt.id = :id")
     List<ListTODO> getById(@Param("id") Integer id);
 
 }
