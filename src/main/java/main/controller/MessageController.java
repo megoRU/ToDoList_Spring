@@ -1,74 +1,67 @@
 package main.controller;
 
-import main.dao.ToDo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import main.api.request.MessageEditRequest;
+import main.api.request.MessageRequest;
+import main.model.ListTODO;
+import main.repository.ListTODORepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import main.repository.ToDoRepository;
-import java.util.*;
+
+import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("message")
 public class MessageController {
 
-    private final ToDoRepository toDoRepository;
-
-    @Autowired
-    public MessageController(ToDoRepository toDoRepository) {
-        this.toDoRepository = toDoRepository;
-    }
+    private final ListTODORepository toDoRepository;
 
     @GetMapping
-    public List<Map<String, String>> list() {
-        List<Map<String, String>> messages = new ArrayList<>();
-        Iterable<ToDo> toDoIterable = toDoRepository.findAll();
-        for (ToDo toDo : toDoIterable) {
-            messages.add(new HashMap<>() {
-                {
-                    put("id", String.valueOf(toDo.getId()));
-                    put("text", toDo.getText());
-                }
-            });
-        }
-        return messages;
+    public ResponseEntity<?> getAll() {
+        List<ListTODO> todoList = toDoRepository.getListTODO();
+        return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public Map<String, String> getOne(@PathVariable String id) {
-        Map<String, String> messages = new HashMap<>();
-
-        Optional<ToDo> todo = toDoRepository.findById(Integer.parseInt(id));
-        messages.put(String.valueOf(todo.get().getId()), todo.get().getText());
-
-        return messages;
+    public ResponseEntity<?> getOne(@PathVariable String id) {
+        List<ListTODO> todoList = toDoRepository.getById(Integer.parseInt(id));
+        return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
-    @PostMapping//Save
-    public Map<String, String> create(@RequestBody Map<String, String> message) {
-        if (!message.toString().equals("{text=}")) {
-            ToDo toDo = new ToDo();
-            toDo.setText(message.toString().substring(6, message.toString().length() - 1));
+    //Сохранение
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody MessageRequest message) {
+
+        if (message.getText() != null) {
+            ListTODO toDo = new ListTODO();
+            toDo.setText(message.getText());
             toDoRepository.save(toDo);
-            System.out.println("Create");
+
+            message.setId(toDo.getId());
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }
-        return message;
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("{id}")
-    public Map<String, String> update(@PathVariable String id, @RequestBody Map<String, String> message) {
-        Map<String, String> messageFromDb = new HashMap<>();
-
-        messageFromDb.putAll(message);
-        messageFromDb.put("id", id);
-
-        toDoRepository.update(Integer.parseInt(id), message.toString().substring(6, message.toString().length() - 1));
-        System.out.println("update");
-
-        return messageFromDb;
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody MessageEditRequest messageEditRequest) {
+        if (id != null && messageEditRequest.getText() != null) {
+            toDoRepository.update(Integer.parseInt(id), messageEditRequest.getText());
+            messageEditRequest.setId(id);
+            return new ResponseEntity<>(messageEditRequest, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable String id) {
-        System.out.println("delete " + id);
-        toDoRepository.deleteById(Integer.parseInt(id));
+    public ResponseEntity<?> delete(@PathVariable String id) {
+
+        if (id != null) {
+            toDoRepository.deleteById(Integer.parseInt(id));
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 }
